@@ -1,14 +1,15 @@
-import app from './app';
-import config from './config';
+import app from "./app";
+import dotenv from "dotenv";
+dotenv.config();
 
-async function main() {
+const bootstrap = () => {
   try {
-    app.listen(config.port, () => {
-      console.log(`Example app listening on port <%= config.port %>`);
+    app.listen(process.env.PORT, () => {
+      console.log(`Server is running on http://localhost:${process.env.PORT}`);
     });
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.error("Failed to load server", error);
   }
-}
+};
 
-main();
+bootstrap();
