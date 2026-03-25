@@ -5,10 +5,7 @@ import AppError from '../errors/AppError';
 import handleZodError from '../errors/handleZodError';
 import handlePrismaError from '../errors/handlePrismaError';
 
-export type TErrorSources = {
-  path: string | number;
-  message: string;
-}[];
+import { TErrorSources } from '../interface/error.Interface';
 
 const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
   // default values

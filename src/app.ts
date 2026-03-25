@@ -1,6 +1,8 @@
 import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
+import globalErrorHandler from './middlewares/globalErrorHandler';
+import notFound from './middlewares/notFound';
 
 const app: Application = express();
 
@@ -15,5 +17,6 @@ app.use(cookieParser());
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello from greenvaya world');
 });
-
+app.use(globalErrorHandler);
+app.use(notFound)
 export default app;

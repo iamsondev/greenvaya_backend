@@ -1,12 +1,12 @@
 import { Prisma } from '../generated/prisma/client';
-import { TErrorSources } from '../middlewares/globalErrorHandler';
+import { TErrorSources, TGenericErrorResponse } from '../interface/error.Interface';
 
 const handlePrismaError = (
   err:
     | Prisma.PrismaClientValidationError
     | Prisma.PrismaClientKnownRequestError
     | Prisma.PrismaClientInitializationError
-) => {
+): TGenericErrorResponse => {
   let statusCode = 400;
   let message = 'Prisma Error';
   let errorSources: TErrorSources = [
