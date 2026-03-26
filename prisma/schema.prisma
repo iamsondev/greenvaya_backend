@@ -7,10 +7,205 @@ datasource db {
   provider = "postgresql"
 }
 
-model User {
-    id        String   @id @default(uuid())
-    email     String   @unique
-    name      String?
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+// ─────────────────────────────────────────────
+// Enums
+// ─────────────────────────────────────────────
+
+enum Role {
+  MEMBER
+  ADMIN
 }
+
+enum IdeaStatus {
+  DRAFT
+  UNDER_REVIEW
+  APPROVED
+  REJECTED
+}
+
+enum VoteType {
+  UPVOTE
+  DOWNVOTE
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCESS
+  FAILED
+  CANCELLED
+}
+
+// ─────────────────────────────────────────────
+// User
+// ─────────────────────────────────────────────
+
+model User {
+  id           String    @id @default(uuid())
+  name         String
+  email        String    @unique
+  password     String
+  role         Role      @default(MEMBER)
+  isActive     Boolean   @default(true)
+  profileImage String?
+
+  ideas        Idea[]
+  votes        Vote[]
+  comments     Comment[]
+  payments     Payment[]
+
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@map("users")
+}
+
+// ─────────────────────────────────────────────
+// Category
+// ─────────────────────────────────────────────
+
+model Category {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String?
+
+  ideas       Idea[]
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("categories")
+}
+
+// ─────────────────────────────────────────────
+// Idea
+// ─────────────────────────────────────────────
+
+model Idea {
+  id               String      @id @default(uuid())
+  title            String
+  problemStatement String
+  proposedSolution String
+  description      String
+  isPaid           Boolean     @default(false)
+  price            Float?
+  status           IdeaStatus  @default(DRAFT)
+
+  authorId         String
+  author           User        @relation(fields: [authorId], references: [id])
+
+  categoryId       String
+  category         Category    @relation(fields: [categoryId], references: [id])
+
+  images           IdeaImage[]
+  votes            Vote[]
+  comments         Comment[]
+  payments         Payment[]
+  feedback         AdminFeedback?
+
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+
+  @@map("ideas")
+}
+
+// ─────────────────────────────────────────────
+// Idea Images
+// ─────────────────────────────────────────────
+
+model IdeaImage {
+  id        String   @id @default(uuid())
+  url       String
+  ideaId    String
+  idea      Idea     @relation(fields: [ideaId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@map("idea_images")
+}
+
+// ─────────────────────────────────────────────
+// Vote
+// ─────────────────────────────────────────────
+
+model Vote {
+  id        String   @id @default(uuid())
+  type      VoteType
+
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+
+  ideaId    String
+  idea      Idea     @relation(fields: [ideaId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, ideaId]) // One vote per user per idea
+  @@map("votes")
+}
+
+// ─────────────────────────────────────────────
+// Comment (Nested / Threaded)
+// ─────────────────────────────────────────────
+
+model Comment {
+  id        String    @id @default(uuid())
+  content   String
+
+  authorId  String
+  author    User      @relation(fields: [authorId], references: [id])
+
+  ideaId    String
+  idea      Idea      @relation(fields: [ideaId], references: [id], onDelete: Cascade)
+
+  parentId  String?
+  parent    Comment?  @relation("CommentReplies", fields: [parentId], references: [id])
+  replies   Comment[] @relation("CommentReplies")
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@map("comments")
+}
+
+// ─────────────────────────────────────────────
+// Payment
+// ─────────────────────────────────────────────
+
+model Payment {
+  id              String        @id @default(uuid())
+  amount          Float
+  currency        String        @default("BDT")
+  status          PaymentStatus @default(PENDING)
+  transactionId   String?       @unique
+  gatewayResponse Json?
+
+  userId          String
+  user            User          @relation(fields: [userId], references: [id])
+
+  ideaId          String
+  idea            Idea          @relation(fields: [ideaId], references: [id])
+
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@unique([userId, ideaId]) // One payment record per user per idea
+  @@map("payments")
+}
+
+// ─────────────────────────────────────────────
+// Admin Feedback (on Rejection)
+// ─────────────────────────────────────────────
+
+model AdminFeedback {
+  id        String   @id @default(uuid())
+  feedback  String
+
+  ideaId    String   @unique
+  idea      Idea     @relation(fields: [ideaId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("admin_feedbacks")
+}
+
