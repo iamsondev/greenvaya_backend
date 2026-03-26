@@ -7,7 +7,8 @@ export default defineConfig({
   datasource: {
     url: process.env.DATABASE_URL,
   },
-  migrate: {
+  migrations: {
+    seed: 'pnpm tsx ./prisma/seed.ts',
     async adapter() {
       const { default: pg } = await import('pg');
       const pool = new pg.Pool({
