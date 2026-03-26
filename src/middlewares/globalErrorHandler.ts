@@ -4,6 +4,7 @@ import { Prisma } from '../generated/prisma/client';
 import { AppError } from '../errors/AppError';
 import handleZodError from '../errors/handleZodError';
 import handlePrismaError from '../errors/handlePrismaError';
+import handlePrismaValidationError from '../errors/handlePrismaValidationError';
 
 import { TErrorSources } from '../interface/error.Interface';
 
@@ -23,8 +24,12 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
     statusCode = simplifiedError.statusCode;
     message = simplifiedError.message;
     errorSources = simplifiedError.errorSources;
+  } else if (err instanceof Prisma.PrismaClientValidationError) {
+    const simplifiedError = handlePrismaValidationError(err);
+    statusCode = simplifiedError.statusCode;
+    message = simplifiedError.message;
+    errorSources = simplifiedError.errorSources;
   } else if (
-    err instanceof Prisma.PrismaClientValidationError ||
     err instanceof Prisma.PrismaClientKnownRequestError ||
     err instanceof Prisma.PrismaClientInitializationError
   ) {
@@ -32,7 +37,8 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
     statusCode = simplifiedError.statusCode;
     message = simplifiedError.message;
     errorSources = simplifiedError.errorSources;
-  } else if (err instanceof AppError) {
+  }
+ else if (err instanceof AppError) {
     statusCode = err.statusCode;
     message = err.message;
     errorSources = [

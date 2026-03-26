@@ -3,7 +3,6 @@ import { TErrorSources, TGenericErrorResponse } from '../interface/error.Interfa
 
 const handlePrismaError = (
   err:
-    | Prisma.PrismaClientValidationError
     | Prisma.PrismaClientKnownRequestError
     | Prisma.PrismaClientInitializationError
 ): TGenericErrorResponse => {
@@ -16,16 +15,7 @@ const handlePrismaError = (
     },
   ];
 
-  if (err instanceof Prisma.PrismaClientValidationError) {
-    statusCode = 400;
-    message = 'Prisma Validation Error';
-    errorSources = [
-      {
-        path: '',
-        message: err.message,
-      },
-    ];
-  } else if (err instanceof Prisma.PrismaClientKnownRequestError) {
+  if (err instanceof Prisma.PrismaClientKnownRequestError) {
     if (err.code === 'P2002') {
       statusCode = 400;
       message = 'Duplicate Entry';
