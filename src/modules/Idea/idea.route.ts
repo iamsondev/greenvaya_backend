@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import auth from '../../middlewares/auth.js';
-import { Role } from '../../generated/prisma/enums.js';
-import validateRequest from '../../middlewares/validateRequest.js';
-import { IdeaControllers } from './idea.controller.js';
-import { IdeaValidation } from './idea.validation.js';
+import auth, { optionalAuth } from '../../middlewares/auth';
+import { Role } from '../../generated/prisma/enums';
+import validateRequest from '../../middlewares/validateRequest';
+import { IdeaControllers } from './idea.controller';
+import { IdeaValidation } from './idea.validation';
 
 const router = Router();
 
@@ -24,8 +24,7 @@ router.get(
 // Get single idea (Public, handles paid logic)
 router.get(
   '/:id',
-  // auth is optional here to check if user has paid, but the controller handles undefined user
-  auth(Role.ADMIN, Role.MEMBER), 
+  optionalAuth,
   IdeaControllers.getSingleIdea,
 );
 

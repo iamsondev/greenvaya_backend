@@ -1,8 +1,8 @@
-import { prisma } from '../../lib/prisma.js';
-import { stripe } from './payment.utils.js';
-import { AppError } from '../../errors/AppError.js';
+import { prisma } from '../../lib/prisma';
+import { stripe } from './payment.utils';
+import { AppError } from '../../errors/AppError';
 import httpStatus from 'http-status';
-import config from '../../config/index.js';
+import config from '../../config/index';
 
 const createPaymentIntent = async (userId: string, ideaId: string) => {
   const idea = await prisma.idea.findUnique({ where: { id: ideaId } });

@@ -1,19 +1,24 @@
 import { NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
 import jwt, { JwtPayload } from 'jsonwebtoken';
-import config from '../config/index.js';
-import { AppError } from '../errors/AppError.js';
-import catchAsync from '../utils/catchAsync.js';
-import { prisma } from '../lib/prisma.js';
-import { Role } from '../generated/prisma/enums.js';
+import config from '../config/index';
+import { AppError } from '../errors/AppError';
+import catchAsync from '../utils/catchAsync';
+import { prisma } from '../lib/prisma';
+import { Role } from '../generated/prisma/enums';
 
 const auth = (...requiredRoles: Role[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const token = req.headers.authorization;
+    let token = req.headers.authorization;
 
     // checking if the token is missing
     if (!token) {
       throw new AppError(httpStatus.UNAUTHORIZED, 'You are not authorized!');
+    }
+
+    // handle Bearer token
+    if (token.startsWith('Bearer ')) {
+      token = token.split(' ')[1];
     }
 
     // checking if the given token is valid
@@ -40,13 +45,13 @@ const auth = (...requiredRoles: Role[]) => {
 
     // checking if the user is already blocked
     if (!user.isActive) {
-      throw new AppError(httpStatus.FORBIDDEN, 'This user is blocked ! !');
+      throw new AppError(httpStatus.FORBIDDEN, 'This user is blocked !');
     }
 
     if (requiredRoles.length && !requiredRoles.includes(role)) {
       throw new AppError(
         httpStatus.UNAUTHORIZED,
-        'You are not authorized  hi!',
+        'You are not authorized!',
       );
     }
 
@@ -54,5 +59,34 @@ const auth = (...requiredRoles: Role[]) => {
     next();
   });
 };
+
+export const optionalAuth = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+  let token = req.headers.authorization;
+
+  if (token) {
+    if (token.startsWith('Bearer ')) {
+      token = token.split(' ')[1];
+    }
+
+    try {
+      const decoded = jwt.verify(
+        token,
+        config.jwt_access_secret as string,
+      ) as JwtPayload;
+
+      const user = await prisma.user.findUnique({
+        where: { id: decoded.id },
+      });
+
+      if (user && user.isActive) {
+        req.user = decoded;
+      }
+    } catch (err) {
+      // Ignore invalid tokens for optional auth
+    }
+  }
+
+  next();
+});
 
 export default auth;

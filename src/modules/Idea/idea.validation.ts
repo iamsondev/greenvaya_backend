@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { IdeaStatus } from '../../generated/prisma/enums.js';
+import { IdeaStatus } from '../../generated/prisma/enums';
 
 const createIdeaValidationSchema = z.object({
   body: z.object({

@@ -1,5 +1,5 @@
 import Stripe from 'stripe';
-import config from '../../config/index.js';
+import config from '../../config/index';
 
 const stripeSecretKey = config.stripe_secret_key;
 

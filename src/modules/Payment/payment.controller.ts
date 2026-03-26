@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
-import catchAsync from '../../utils/catchAsync.js';
-import sendResponse from '../../utils/sendResponse.js';
-import { PaymentServices } from './payment.service.js';
+import catchAsync from '../../utils/catchAsync';
+import sendResponse from '../../utils/sendResponse';
+import { PaymentServices } from './payment.service';
 
 const createCheckoutSession = catchAsync(async (req: Request, res: Response) => {
   const userId = req.user.id;

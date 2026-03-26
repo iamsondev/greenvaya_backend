@@ -1,5 +1,5 @@
-import { Prisma } from '../generated/prisma/client.js';
-import { TErrorSources, TGenericErrorResponse } from '../interface/error.Interface.js';
+import { Prisma } from '../generated/prisma/client';
+import { TErrorSources, TGenericErrorResponse } from '../interface/error.Interface';
 
 const handlePrismaError = (
   err:
