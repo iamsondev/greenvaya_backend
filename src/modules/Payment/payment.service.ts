@@ -3,6 +3,7 @@ import { stripe } from './payment.utils';
 import { AppError } from '../../errors/AppError';
 import httpStatus from 'http-status';
 import config from '../../config/index';
+import { TCreatePaymentRequest } from './payment.interface';
 
 const createPaymentIntent = async (userId: string, ideaId: string) => {
   const idea = await prisma.idea.findUnique({ where: { id: ideaId } });

@@ -3,10 +3,11 @@ import httpStatus from 'http-status';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { PaymentServices } from './payment.service';
+import { TCreatePaymentRequest } from './payment.interface';
 
 const createCheckoutSession = catchAsync(async (req: Request, res: Response) => {
   const userId = req.user.id;
-  const { ideaId } = req.body;
+  const { ideaId } = req.body as TCreatePaymentRequest;
 
   const result = await PaymentServices.createPaymentIntent(userId, ideaId);
 
