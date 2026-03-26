@@ -1,12 +1,23 @@
-import { TErrorSources, TGenericErrorResponse } from '../interface/error.Interface';
+import {
+  TErrorSources,
+  TGenericErrorResponse,
+} from '../interface/error.Interface';
 
 const handlePrismaValidationError = (err: any): TGenericErrorResponse => {
   const statusCode = 400;
-  const message = 'Prisma Validation Error';
+  const message = 'Validation Error';
+
+  // Extracting the specific error message by splitting the lines and taking the last relevant part
+  const errMessage = err.message.split('\n').pop()?.trim() || err.message;
+
+  // Attempting to extract the path (field name) from the error message (e.g., from `data`)
+  const pathMatch = err.message.match(/`(.+?)`/);
+  const path = pathMatch ? pathMatch[1] : '';
+
   const errorSources: TErrorSources = [
     {
-      path: '',
-      message: err.message,
+      path: path,
+      message: errMessage,
     },
   ];
 
