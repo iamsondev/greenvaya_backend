@@ -1,6 +1,6 @@
-# GreenVaya Backend (EcoSpark Hub) 🌱
+# GreenVaya Backend 🌱
 
-A robust, feature-rich backend REST API built for the **GreenVaya (EcoSpark Hub)** community portal. This service handles user authentication, post (idea) management, upvoting/downvoting, nested comments, secure role-based access control (RBAC), and premium membership payments via Stripe.
+A robust, feature-rich backend REST API built for the **GreenVaya** community portal. This service handles user authentication, post (idea) management, upvoting/downvoting, nested comments, secure role-based access control (RBAC), and premium membership payments via Stripe.
 
 ---
 
@@ -43,7 +43,7 @@ Before you begin, ensure you have the following installed on your local machine:
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/yourusername/greenvaya-backend.git
+   git clone https://github.com/iamsondev/greenvaya_backend
    cd greenvaya-backend
    ```
 
@@ -56,17 +56,17 @@ Before you begin, ensure you have the following installed on your local machine:
    Create a `.env` file in the root directory and configure the following variables:
    ```env
    NODE_ENV=development
-   PORT=5000
-   DATABASE_URL="postgresql://user:password@localhost:5432/greenvaya?schema=public"
+   PORT=****
+   DATABASE_URL=****************
    
    # JWT Secrets
-   JWT_ACCESS_SECRET=your_access_secret_key
-   JWT_REFRESH_SECRET=your_refresh_secret_key
+   JWT_ACCESS_SECRET=****************
+   JWT_REFRESH_SECRET=****************
    JWT_ACCESS_EXPIRES_IN=1d
    JWT_REFRESH_EXPIRES_IN=30d
    
    # Stripe
-   STRIPE_SECRET_KEY=sk_test_...
+   STRIPE_SECRET_KEY=****************
    ```
 
 4. **Initialize the Database:**
