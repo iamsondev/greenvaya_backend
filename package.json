@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node dist/server.js",
     "build": "tsc -p .",
+    "postinstall": "prisma generate",
     "dev": "tsx watch src/server.ts",
     "lint": "eslint ./src/**/*",
     "test": "echo \"Error: no test specified\" && exit 1"
