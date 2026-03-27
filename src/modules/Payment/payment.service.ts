@@ -71,7 +71,10 @@ const createPaymentIntent = async (userId: string, ideaId: string) => {
     },
   });
 
-  return { checkoutUrl: session.url };
+  return { 
+    id: session.id,
+    checkoutUrl: session.url 
+  };
 };
 
 const verifyPayment = async (sessionId: string) => {
