@@ -55,15 +55,14 @@ Before you begin, ensure you have the following installed on your local machine:
 3. **Configure Environment Variables:**
    Create a `.env` file in the root directory and configure the following variables:
    ```env
-   NODE_ENV=development
+   
    PORT=****
    DATABASE_URL=****************
    
    # JWT Secrets
    JWT_ACCESS_SECRET=****************
    JWT_REFRESH_SECRET=****************
-   JWT_ACCESS_EXPIRES_IN=1d
-   JWT_REFRESH_EXPIRES_IN=30d
+   
    
    # Stripe
    STRIPE_SECRET_KEY=****************
