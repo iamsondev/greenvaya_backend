@@ -11,7 +11,9 @@ const createIdea = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     statusCode: httpStatus.CREATED,
     success: true,
-    message: 'Idea created and submitted for review',
+    message: req.body.status === 'UNDER_REVIEW' 
+      ? 'Idea created and submitted for review' 
+      : 'Idea created as draft',
     data: result,
   });
 });
@@ -23,7 +25,8 @@ const getAllIdeas = catchAsync(async (req: Request, res: Response) => {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Ideas retrieved successfully',
-    data: result,
+    meta: result.meta,
+    data: result.data,
   });
 });
 
@@ -53,6 +56,33 @@ const updateIdea = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const deleteIdea = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const userId = req.user.id;
+  const userRole = req.user.role;
+  const result = await IdeaServices.deleteIdeaFromDB(id as string, userId, userRole);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Idea deleted successfully',
+    data: result,
+  });
+});
+
+const submitIdea = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const userId = req.user.id;
+  const result = await IdeaServices.submitIdeaForReview(id as string, userId);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Idea submitted for review successfully',
+    data: result,
+  });
+});
+
 const adminAction = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
   const result = await IdeaServices.adminActionInDB(id as string, req.body);
@@ -70,5 +100,7 @@ export const IdeaControllers = {
   getAllIdeas,
   getSingleIdea,
   updateIdea,
+  deleteIdea,
+  submitIdea,
   adminAction,
 };

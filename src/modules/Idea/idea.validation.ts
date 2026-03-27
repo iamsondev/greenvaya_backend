@@ -11,6 +11,7 @@ const createIdeaValidationSchema = z.object({
     isPaid: z.boolean().optional(),
     price: z.number().optional().nullable(),
     images: z.array(z.string()).optional(),
+    status: z.nativeEnum(IdeaStatus).optional(),
   }),
 });
 

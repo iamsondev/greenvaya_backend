@@ -36,6 +36,20 @@ router.patch(
   IdeaControllers.updateIdea,
 );
 
+// Delete idea (Owner if unpublished / Admin any)
+router.delete(
+  '/:id',
+  auth(Role.MEMBER, Role.ADMIN),
+  IdeaControllers.deleteIdea,
+);
+
+// Submit Draft for Review (Owner only)
+router.patch(
+  '/:id/submit',
+  auth(Role.MEMBER, Role.ADMIN),
+  IdeaControllers.submitIdea,
+);
+
 // Admin Action: Approve/Reject
 router.patch(
   '/:id/admin-action',
