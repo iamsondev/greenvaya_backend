@@ -1,7 +1,7 @@
-import 'dotenv/config';
+﻿import 'dotenv/config';
 import { Server } from 'http';
-import app from './app';
-import { prisma } from './lib/prisma';
+import app from './app.js';
+import { prisma } from './lib/prisma.js';
 
 let server: Server;
 

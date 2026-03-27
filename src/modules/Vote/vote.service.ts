@@ -1,5 +1,5 @@
-import { prisma } from '../../lib/prisma';
-import { VoteType } from '../../generated/prisma/enums';
+﻿import { prisma } from '../../lib/prisma.js';
+import { VoteType } from '../../generated/prisma/enums.js';
 
 const toggleVoteInDB = async (userId: string, ideaId: string, type: VoteType) => {
   const existingVote = await prisma.vote.findUnique({

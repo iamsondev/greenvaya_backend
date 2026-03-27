@@ -1,7 +1,7 @@
-import { prisma } from '../../lib/prisma';
-import { Role } from '../../generated/prisma/enums';
+﻿import { prisma } from '../../lib/prisma.js';
+import { Role } from '../../generated/prisma/enums.js';
 import bcrypt from 'bcrypt';
-import { TUser } from './user.interface';
+import { TUser } from './user.interface.js';
 
 const getAllUsersFromDB = async () => {
     const result = await prisma.user.findMany({

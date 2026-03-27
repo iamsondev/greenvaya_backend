@@ -1,8 +1,8 @@
-import { Request, Response } from 'express';
+﻿import { Request, Response } from 'express';
 import httpStatus from 'http-status';
-import catchAsync from '../../utils/catchAsync';
-import sendResponse from '../../utils/sendResponse';
-import { CommentServices } from './comment.service';
+import catchAsync from '../../utils/catchAsync.js';
+import sendResponse from '../../utils/sendResponse.js';
+import { CommentServices } from './comment.service.js';
 
 const createComment = catchAsync(async (req: Request, res: Response) => {
   const userId = req.user.id;

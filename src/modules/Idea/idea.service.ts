@@ -1,6 +1,6 @@
-import { prisma } from '../../lib/prisma';
-import { IdeaStatus } from '../../generated/prisma/enums';
-import { AppError } from '../../errors/AppError';
+﻿import { prisma } from '../../lib/prisma.js';
+import { IdeaStatus } from '../../generated/prisma/enums.js';
+import { AppError } from '../../errors/AppError.js';
 import httpStatus from 'http-status';
 
 const createIdeaIntoDB = async (authorId: string, payload: any) => {

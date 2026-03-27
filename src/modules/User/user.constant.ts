@@ -1,4 +1,4 @@
-import { USER_ROLE } from './user.utils';
+﻿import { USER_ROLE } from './user.utils.js';
 
 export { USER_ROLE };
 

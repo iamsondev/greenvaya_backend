@@ -1,10 +1,10 @@
-# GreenVaya Backend 🌱
+﻿# GreenVaya Backend ðŸŒ±
 
 A robust, feature-rich backend REST API built for the **GreenVaya** community portal. This service handles user authentication, post (idea) management, upvoting/downvoting, nested comments, secure role-based access control (RBAC), and premium membership payments via Stripe.
 
 ---
 
-## 🚀 Features
+## ðŸš€ Features
 
 - **Authentication & Authorization:** Secure JWT-based authentication (Access & Refresh tokens) with role-based access control (Admin & User).
 - **User Management:** Secure password hashing (Bcrypt), user profiles, and seamless state persistence.
@@ -17,7 +17,7 @@ A robust, feature-rich backend REST API built for the **GreenVaya** community po
 
 ---
 
-## 🛠️ Tech Stack
+## ðŸ› ï¸ Tech Stack
 
 - **Runtime:** [Node.js](https://nodejs.org/)
 - **Framework:** [Express.js](https://expressjs.com/)
@@ -30,7 +30,7 @@ A robust, feature-rich backend REST API built for the **GreenVaya** community po
 
 ---
 
-## ⚙️ Prerequisites
+## âš™ï¸ Prerequisites
 
 Before you begin, ensure you have the following installed on your local machine:
 - **Node.js** (v18 or higher recommended)
@@ -39,7 +39,7 @@ Before you begin, ensure you have the following installed on your local machine:
 
 ---
 
-## 💻 Installation & Local Setup
+## ðŸ’» Installation & Local Setup
 
 1. **Clone the repository:**
    ```bash
@@ -62,8 +62,7 @@ Before you begin, ensure you have the following installed on your local machine:
    # JWT Secrets
    JWT_ACCESS_SECRET=****************
    JWT_REFRESH_SECRET=****************
-   
-   
+         
    # Stripe
    STRIPE_SECRET_KEY=****************
    ```
@@ -90,7 +89,7 @@ Before you begin, ensure you have the following installed on your local machine:
 
 ---
 
-## 🌐 Deployment (Vercel)
+## ðŸŒ Deployment (Vercel)
 
 This project is fully configured for deployment on Vercel as serverless functions.
 
@@ -101,14 +100,14 @@ This project is fully configured for deployment on Vercel as serverless function
 
 ---
 
-## 📜 API Documentation
+## ðŸ“œ API Documentation
 
 A Postman collection is available for testing the API endpoints locally.
 - Import `greenvaya_api_collection.json` (located in the project root) into Postman to view detailed requests, payloads, and authorization requirements.
 
 ---
 
-## 📝 Scripts
+## ðŸ“ Scripts
 
 - `pnpm run dev` - Starts the development server with live reload (`tsx watch`).
 - `pnpm run build` - Compiles TypeScript to JavaScript into the `dist/` directory.
@@ -117,6 +116,6 @@ A Postman collection is available for testing the API endpoints locally.
 
 ---
 
-## 📄 License
+## ðŸ“„ License
 
-This project is licensed under the ISC License.
+This project is licensed under the [EMAIL_ADDRESS]

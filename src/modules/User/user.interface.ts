@@ -1,4 +1,4 @@
-import { Role } from '../../generated/prisma/client';
+﻿import { Role } from '../../generated/prisma/client.js';
 
 export type TUserRole = keyof typeof Role;
 

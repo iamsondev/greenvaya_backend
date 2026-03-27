@@ -1,12 +1,12 @@
-import jwt from 'jsonwebtoken';
-import config from '../../config/index';
+﻿import jwt from 'jsonwebtoken';
+import config from '../../config/index.js';
 import bcrypt from 'bcrypt';
 import httpStatus from 'http-status';
-import { prisma } from '../../lib/prisma';
-import { AppError } from '../../errors/AppError';
-import { USER_ROLE } from '../User/user.utils';
-import { createToken, verifyToken } from './auth.utils';
-import { TLoginUser } from './auth.interface';
+import { prisma } from '../../lib/prisma.js';
+import { AppError } from '../../errors/AppError.js';
+import { USER_ROLE } from '../User/user.utils.js';
+import { createToken, verifyToken } from './auth.utils.js';
+import { TLoginUser } from './auth.interface.js';
 
 const registerUser = async (payload: any) => {
   const hashedPassword = await bcrypt.hash(

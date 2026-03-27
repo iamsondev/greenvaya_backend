@@ -1,7 +1,7 @@
-import {
+﻿import {
   TErrorSources,
   TGenericErrorResponse,
-} from '../interface/error.Interface';
+} from '../interface/error.Interface.js';
 
 const handlePrismaValidationError = (err: any): TGenericErrorResponse => {
   const statusCode = 400;

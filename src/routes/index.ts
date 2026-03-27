@@ -1,12 +1,12 @@
-import { Router } from 'express';
+﻿import { Router } from 'express';
 
-import userRouter from '../modules/User/user.route';
-import authRouter from '../modules/Auth/auth.route';
-import categoryRouter from '../modules/Category/category.route';
-import ideaRouter from '../modules/Idea/idea.route';
-import voteRouter from '../modules/Vote/vote.route';
-import commentRouter from '../modules/Comment/comment.route';
-import paymentRouter from '../modules/Payment/payment.route';
+import userRouter from '../modules/User/user.route.js';
+import authRouter from '../modules/Auth/auth.route.js';
+import categoryRouter from '../modules/Category/category.route.js';
+import ideaRouter from '../modules/Idea/idea.route.js';
+import voteRouter from '../modules/Vote/vote.route.js';
+import commentRouter from '../modules/Comment/comment.route.js';
+import paymentRouter from '../modules/Payment/payment.route.js';
 
 const router = Router();
 
