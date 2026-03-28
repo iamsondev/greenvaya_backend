@@ -1,4 +1,4 @@
-﻿import { Router } from 'express';
+import { Router } from 'express';
 import validateRequest from '../../middlewares/validateRequest.js';
 import { AuthControllers } from './auth.controller.js';
 import { AuthValidation } from './auth.validation.js';

@@ -1,5 +1,5 @@
-﻿import { prisma } from '../../lib/prisma.js';
-import { IdeaStatus } from '../../generated/prisma/enums.js';
+import { prisma } from '../../lib/prisma.js';
+import { IdeaStatus } from '@prisma/client';
 import { AppError } from '../../errors/AppError.js';
 import httpStatus from 'http-status';
 

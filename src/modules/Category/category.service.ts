@@ -1,4 +1,4 @@
-﻿import { prisma } from '../../lib/prisma.js';
+import { prisma } from '../../lib/prisma.js';
 
 const createCategoryIntoDB = async (payload: { name: string; description?: string }) => {
   const result = await prisma.category.create({

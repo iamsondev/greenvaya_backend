@@ -1,6 +1,6 @@
-﻿import { Router } from 'express';
+import { Router } from 'express';
 import auth from '../../middlewares/auth.js';
-import { Role } from '../../generated/prisma/enums.js';
+import { Role } from '@prisma/client';
 import validateRequest from '../../middlewares/validateRequest.js';
 import { PaymentControllers } from './payment.controller.js';
 import { PaymentValidation } from './payment.validation.js';

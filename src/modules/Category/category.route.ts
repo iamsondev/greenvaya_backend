@@ -1,6 +1,6 @@
-﻿import { Router } from 'express';
+import { Router } from 'express';
 import auth from '../../middlewares/auth.js';
-import { Role } from '../../generated/prisma/enums.js';
+import { Role } from '@prisma/client';
 import { CategoryControllers } from './category.controller.js';
 import validateRequest from '../../middlewares/validateRequest.js';
 import { CategoryValidation } from './category.validation.js';

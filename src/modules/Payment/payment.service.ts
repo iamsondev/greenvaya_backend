@@ -1,4 +1,4 @@
-﻿import { prisma } from '../../lib/prisma.js';
+import { prisma } from '../../lib/prisma.js';
 import { stripe } from './payment.utils.js';
 import { AppError } from '../../errors/AppError.js';
 import httpStatus from 'http-status';

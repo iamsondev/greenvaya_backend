@@ -1,5 +1,5 @@
-﻿import { prisma } from '../../lib/prisma.js';
-import { Role } from '../../generated/prisma/enums.js';
+import { prisma } from '../../lib/prisma.js';
+import { Role } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import { TUser } from './user.interface.js';
 

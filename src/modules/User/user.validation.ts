@@ -1,5 +1,5 @@
-﻿import { z } from 'zod';
-import { Role } from '../../generated/prisma/enums.js';
+import { z } from 'zod';
+import { Role } from '@prisma/client';
 
 const createUserValidationSchema = z.object({
     body: z.object({

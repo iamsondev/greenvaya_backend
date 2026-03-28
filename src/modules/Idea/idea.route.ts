@@ -1,6 +1,6 @@
-﻿import { Router } from 'express';
+import { Router } from 'express';
 import auth, { optionalAuth } from '../../middlewares/auth.js';
-import { Role } from '../../generated/prisma/enums.js';
+import { Role } from '@prisma/client';
 import validateRequest from '../../middlewares/validateRequest.js';
 import { IdeaControllers } from './idea.controller.js';
 import { IdeaValidation } from './idea.validation.js';
