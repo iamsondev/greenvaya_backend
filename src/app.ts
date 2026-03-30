@@ -8,6 +8,16 @@ import { prisma } from './lib/prisma.js';
 
 const app: Application = express();
 
+
+// parsers
+app.use(express.json());
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL || "http://localhost:3000",
+    credentials: true,
+  })
+);
+app.use(cookieParser());
 // Simple health check and lazy connect for Vercel
 app.get('/health', async (req, res) => {
   try {
@@ -18,10 +28,6 @@ app.get('/health', async (req, res) => {
   }
 });
 
-// parsers
-app.use(express.json());
-app.use(cors());
-app.use(cookieParser());
 
 // application routes
 app.use('/api/v1', router);
