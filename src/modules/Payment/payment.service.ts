@@ -71,9 +71,9 @@ const createPaymentIntent = async (userId: string, ideaId: string) => {
     },
   });
 
-  return { 
+  return {
     id: session.id,
-    checkoutUrl: session.url 
+    checkoutUrl: session.url
   };
 };
 
@@ -99,8 +99,25 @@ const verifyPayment = async (sessionId: string) => {
 
   throw new AppError(httpStatus.BAD_REQUEST, 'Payment not completed');
 };
+const getUserPurchases = async (userId: string) => {
+  const purchases = await prisma.payment.findMany({
+    where: {
+      userId,
+      status: 'SUCCESS',
+    },
+    include: {
+      idea: {
+        include: {
+          category: true,
+        },
+      },
+    },
+  });
+  return purchases;
+};
 
 export const PaymentServices = {
   createPaymentIntent,
   verifyPayment,
+  getUserPurchases,
 };

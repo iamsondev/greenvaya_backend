@@ -20,5 +20,11 @@ router.get(
   PaymentControllers.verifyPayment,
 );
 
+router.get(
+  '/my-purchases',
+  auth(Role.MEMBER, Role.ADMIN),
+  PaymentControllers.getUserPurchases,
+);
+
 const paymentRouter = router;
 export default paymentRouter;
