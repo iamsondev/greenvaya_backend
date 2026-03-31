@@ -31,6 +31,13 @@ const getSingleUserFromDB = async (id: string) => {
             profileImage: true,
             createdAt: true,
             updatedAt: true,
+            _count: {
+                select: {
+                    ideas: true,
+                    votes: true,
+                    comments: true,
+                },
+            },
         },
     });
     return result;
