@@ -177,23 +177,30 @@ const updateIdeaInDB = async (id: string, userId: string, payload: any) => {
   }
 
   if (idea.authorId !== userId) {
-    throw new AppError(
-      httpStatus.FORBIDDEN,
-      'You are not authorized to edit this idea',
-    );
+    throw new AppError(httpStatus.FORBIDDEN, 'You are not authorized to edit this idea');
   }
 
   if (idea.status === IdeaStatus.APPROVED) {
     throw new AppError(httpStatus.BAD_REQUEST, 'Cannot edit an approved idea');
   }
 
+  const { images, ...restPayload } = payload;
+
   const result = await prisma.idea.update({
     where: { id },
-    data: payload,
+    data: {
+      ...restPayload,
+      ...(images && images.length > 0 && {
+        images: {
+          deleteMany: {},
+          create: images.map((url: string) => ({ url })),
+        },
+      }),
+    },
   });
+
   return result;
 };
-
 const deleteIdeaFromDB = async (id: string, userId: string, userRole: string) => {
   const idea = await prisma.idea.findUnique({ where: { id } });
 
