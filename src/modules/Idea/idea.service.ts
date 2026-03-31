@@ -224,7 +224,13 @@ const deleteIdeaFromDB = async (id: string, userId: string, userRole: string) =>
     }
   }
 
-  return await prisma.idea.delete({ where: { id } });
+  return await prisma.$transaction(async (tx) => {
+    // Delete associated payments first as it's not cascaded in schema
+    await tx.payment.deleteMany({ where: { ideaId: id } });
+
+    // Now delete idea (this will trigger cascade for Images, Votes, Comments, Feedback)
+    return await tx.idea.delete({ where: { id } });
+  });
 };
 
 const submitIdeaForReview = async (id: string, userId: string) => {

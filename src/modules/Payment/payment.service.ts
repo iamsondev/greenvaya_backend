@@ -128,4 +128,5 @@ export const PaymentServices = {
   createPaymentIntent,
   verifyPayment,
   getUserPurchases,
+  checkUserPurchase
 };
