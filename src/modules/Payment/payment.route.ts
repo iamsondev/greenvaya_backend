@@ -26,5 +26,11 @@ router.get(
   PaymentControllers.getUserPurchases,
 );
 
+router.get(
+  '/my-purchases/:ideaId',
+  auth(Role.MEMBER, Role.ADMIN),
+  PaymentControllers.checkPurchase,
+);
+
 const paymentRouter = router;
 export default paymentRouter;

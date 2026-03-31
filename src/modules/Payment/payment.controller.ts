@@ -31,8 +31,31 @@ const verifyPayment = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const getUserPurchases = catchAsync(async (req: Request, res: Response) => {
+  const userId = req.user.id;
+  const result = await PaymentServices.getUserPurchases(userId);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Purchases retrieved successfully',
+    data: result,
+  });
+});
+const checkPurchase = catchAsync(async (req: Request, res: Response) => {
+  const userId = req.user.id
+  const { ideaId } = req.params
+  const result = await PaymentServices.checkUserPurchase(userId, ideaId)
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Purchase status checked',
+    data: { hasPurchased: result },
+  })
+})
 
 export const PaymentControllers = {
   createCheckoutSession,
   verifyPayment,
+  getUserPurchases,
+  checkPurchase,
 };

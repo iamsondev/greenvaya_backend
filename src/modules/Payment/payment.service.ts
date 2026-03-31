@@ -115,6 +115,14 @@ const getUserPurchases = async (userId: string) => {
   });
   return purchases;
 };
+const checkUserPurchase = async (userId: string, ideaId: string) => {
+  const payment = await prisma.payment.findUnique({
+    where: {
+      userId_ideaId: { userId, ideaId },
+    },
+  })
+  return payment?.status === 'SUCCESS'
+}
 
 export const PaymentServices = {
   createPaymentIntent,
