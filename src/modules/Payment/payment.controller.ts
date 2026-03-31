@@ -20,7 +20,7 @@ const createCheckoutSession = catchAsync(async (req: Request, res: Response) => 
 });
 
 const verifyPayment = catchAsync(async (req: Request, res: Response) => {
-  const { sessionId } = req.query;
+  const sessionId = req.query.session_id || req.query.sessionId;
 
   const result = await PaymentServices.verifyPayment(sessionId as string);
 
