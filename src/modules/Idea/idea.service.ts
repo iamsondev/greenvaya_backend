@@ -5,7 +5,7 @@ import httpStatus from 'http-status';
 
 const createIdeaIntoDB = async (authorId: string, payload: any) => {
   const { images, status, ...ideaData } = payload;
-  
+
   const result = await prisma.idea.create({
     data: {
       ...ideaData,
@@ -155,8 +155,12 @@ const getSingleIdeaFromDB = async (id: string, userId?: string) => {
         title: idea.title,
         isPaid: true,
         price: idea.price,
+        status: idea.status,
+        createdAt: idea.createdAt,
         author: idea.author,
         category: idea.category,
+        images: idea.images,
+        _count: idea._count,
         message: 'This is a paid idea. Please pay to see full details.',
       };
     }
