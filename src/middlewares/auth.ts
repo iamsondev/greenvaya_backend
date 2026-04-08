@@ -5,9 +5,9 @@ import config from '../config/index.js';
 import { AppError } from '../errors/AppError.js';
 import catchAsync from '../utils/catchAsync.js';
 import { prisma } from '../lib/prisma.js';
-import { Role } from '@prisma/client';
+import { USER_ROLE } from '../modules/User/user.utils.js';
 
-const auth = (...requiredRoles: Role[]) => {
+const auth = (...requiredRoles: (keyof typeof USER_ROLE)[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
 
     // Header অথবা Cookie — যেকোনো একটা থেকে token নাও

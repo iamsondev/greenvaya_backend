@@ -1,19 +1,19 @@
 import { Router } from 'express';
 import auth from '../../middlewares/auth.js';
-import { Role } from '@prisma/client';
+import { USER_ROLE } from '../User/user.utils.js';
 import { CommentControllers } from './comment.controller.js';
 
 const router = Router();
 
 router.post(
   '/',
-  auth(Role.MEMBER, Role.ADMIN),
+  auth(USER_ROLE.MEMBER, USER_ROLE.ADMIN, USER_ROLE.MODERATOR),
   CommentControllers.createComment,
 );
 
 router.delete(
   '/:id',
-  auth(Role.MEMBER, Role.ADMIN),
+  auth(USER_ROLE.MEMBER, USER_ROLE.ADMIN, USER_ROLE.MODERATOR),
   CommentControllers.deleteComment,
 );
 

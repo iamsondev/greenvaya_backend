@@ -6,11 +6,16 @@ import { AuthServices } from './auth.service.js';
 import { OAuth2Client } from 'google-auth-library';
 import config from '../../config/index.js';
 
-const client = new OAuth2Client(
-  config.google_client_id as string,
-  config.google_client_secret as string,
-  config.google_callback_url as string,
-);
+const getGoogleConfig = () => ({
+  clientId: process.env.GOOGLE_CLIENT_ID || config.google_client_id as string,
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET || config.google_client_secret as string,
+  callbackUrl: process.env.GOOGLE_CALLBACK_URL || config.google_callback_url as string,
+});
+
+const getClient = () => {
+  const { clientId, clientSecret, callbackUrl } = getGoogleConfig();
+  return new OAuth2Client(clientId, clientSecret, callbackUrl);
+};
 
 
 const registerUser = catchAsync(async (req: Request, res: Response) => {
@@ -70,9 +75,16 @@ const logoutUser = catchAsync(async (req: Request, res: Response) => {
   });
 });
 const googleAuth = catchAsync(async (req: Request, res: Response) => {
+  const { clientId, callbackUrl } = getGoogleConfig();
+
+  if (!clientId || !callbackUrl) {
+      console.error("Missing Google Config:", { clientId, callbackUrl });
+      throw new Error('Google OAuth configuration is missing');
+  }
+
   const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?${new URLSearchParams({
-    client_id: config.google_client_id as string,
-    redirect_uri: config.google_callback_url as string,
+    client_id: clientId,
+    redirect_uri: callbackUrl,
     response_type: 'code',
     scope: 'email profile',
     access_type: 'offline',
@@ -83,6 +95,8 @@ const googleAuth = catchAsync(async (req: Request, res: Response) => {
 });
 
 const googleCallback = catchAsync(async (req: Request, res: Response) => {
+  const { clientId, callbackUrl } = getGoogleConfig();
+  const client = getClient();
   const { code } = req.query;
 
   if (!code) {
@@ -91,12 +105,12 @@ const googleCallback = catchAsync(async (req: Request, res: Response) => {
 
   const { tokens } = await client.getToken({
     code: code as string,
-    redirect_uri: config.google_callback_url as string,
+    redirect_uri: callbackUrl,
   });
 
   const ticket = await client.verifyIdToken({
     idToken: tokens.id_token as string,
-    audience: config.google_client_id as string,
+    audience: clientId,
   });
 
   const payload = ticket.getPayload();

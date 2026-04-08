@@ -52,6 +52,7 @@ const loginUser = async (payload: TLoginUser) => {
     email: user.email,
     role: user.role,
     name: user.name,
+    profileImage: user.profileImage,
   };
 
   const accessToken = createToken(
@@ -99,6 +100,7 @@ const refreshToken = async (token: string) => {
     email: user.email,
     role: user.role,
     name: user.name,
+    profileImage: user.profileImage,
   };
 
   const accessToken = createToken(
@@ -142,6 +144,7 @@ const googleLogin = async (payload: {
     email: user.email,
     role: user.role,
     name: user.name,
+    profileImage: user.profileImage,
   };
 
   const accessToken = createToken(

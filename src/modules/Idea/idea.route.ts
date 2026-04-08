@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import auth, { optionalAuth } from '../../middlewares/auth.js';
-import { Role } from '@prisma/client';
+import { USER_ROLE } from '../User/user.utils.js';
 import validateRequest from '../../middlewares/validateRequest.js';
 import { IdeaControllers } from './idea.controller.js';
 import { IdeaValidation } from './idea.validation.js';
@@ -10,7 +10,7 @@ const router = Router();
 // Create idea (Member)
 router.post(
   '/',
-  auth(Role.MEMBER, Role.ADMIN),
+  auth(USER_ROLE.MEMBER, USER_ROLE.ADMIN, USER_ROLE.MODERATOR),
   validateRequest(IdeaValidation.createIdeaValidationSchema),
   IdeaControllers.createIdea,
 );
@@ -31,7 +31,7 @@ router.get(
 // Update idea (Owner only)
 router.patch(
   '/:id',
-  auth(Role.MEMBER, Role.ADMIN),
+  auth(USER_ROLE.MEMBER, USER_ROLE.ADMIN, USER_ROLE.MODERATOR),
   validateRequest(IdeaValidation.updateIdeaValidationSchema),
   IdeaControllers.updateIdea,
 );
@@ -39,21 +39,21 @@ router.patch(
 // Delete idea (Owner if unpublished / Admin any)
 router.delete(
   '/:id',
-  auth(Role.MEMBER, Role.ADMIN),
+  auth(USER_ROLE.MEMBER, USER_ROLE.ADMIN, USER_ROLE.MODERATOR),
   IdeaControllers.deleteIdea,
 );
 
 // Submit Draft for Review (Owner only)
 router.patch(
   '/:id/submit',
-  auth(Role.MEMBER, Role.ADMIN),
+  auth(USER_ROLE.MEMBER, USER_ROLE.ADMIN, USER_ROLE.MODERATOR),
   IdeaControllers.submitIdea,
 );
 
 // Admin Action: Approve/Reject
 router.patch(
   '/:id/admin-action',
-  auth(Role.ADMIN),
+  auth(USER_ROLE.ADMIN, USER_ROLE.MODERATOR),
   validateRequest(IdeaValidation.adminActionValidationSchema),
   IdeaControllers.adminAction,
 );

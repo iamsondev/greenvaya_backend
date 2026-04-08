@@ -208,8 +208,8 @@ const deleteIdeaFromDB = async (id: string, userId: string, userRole: string) =>
     throw new AppError(httpStatus.NOT_FOUND, 'Idea not found');
   }
 
-  // Admins can delete any, members only their own unpublished
-  if (userRole !== 'ADMIN') {
+  // Admins and Moderators can delete any, members only their own unpublished
+  if (userRole !== 'ADMIN' && userRole !== 'MODERATOR') {
     if (idea.authorId !== userId) {
       throw new AppError(
         httpStatus.FORBIDDEN,

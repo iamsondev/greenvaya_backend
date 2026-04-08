@@ -27,6 +27,30 @@ async function main() {
   } else {
     console.log('Admin user already exists.');
   }
+
+  // Check if moderator already exists
+  const moderatorEmail = 'moderator@gmail.com';
+  const existingModerator = await prisma.user.findUnique({
+    where: { email: moderatorEmail },
+  });
+
+  if (!existingModerator) {
+    const hashedPassword = await bcrypt.hash('moderator1234', 12);
+
+    await prisma.user.create({
+      data: {
+        name: 'Moderator',
+        email: moderatorEmail,
+        password: hashedPassword,
+        role: 'MODERATOR',
+        isActive: true,
+      },
+    });
+
+    console.log('Moderator user created successfully!');
+  } else {
+    console.log('Moderator user already exists.');
+  }
 }
 
 main()

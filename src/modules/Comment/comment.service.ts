@@ -20,8 +20,8 @@ const deleteCommentFromDB = async (commentId: string, userId: string, userRole: 
     throw new Error('Comment not found');
   }
 
-  // Admins can delete any comment, members only their own
-  if (userRole !== 'ADMIN' && comment.authorId !== userId) {
+  // Admins and Moderators can delete any comment, members only their own
+  if (userRole !== 'ADMIN' && userRole !== 'MODERATOR' && comment.authorId !== userId) {
     throw new Error('You are not authorized to delete this comment');
   }
 

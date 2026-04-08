@@ -3,28 +3,28 @@ import validateRequest from '../../middlewares/validateRequest.js';
 import { UserControllers } from './user.controller.js';
 import { UserValidation } from './user.validation.js';
 import auth from '../../middlewares/auth.js';
-import { Role } from '@prisma/client';
+import { USER_ROLE } from './user.utils.js';
 
 const router = Router();
 
 // Admin: View all users
 router.get(
     '/',
-    auth(Role.ADMIN),
+    auth(USER_ROLE.ADMIN, USER_ROLE.MODERATOR),
     UserControllers.getAllUsers,
 );
 
 // Get My Profile
 router.get(
     '/me',
-    auth(Role.ADMIN, Role.MEMBER),
+    auth(USER_ROLE.ADMIN, USER_ROLE.MODERATOR, USER_ROLE.MEMBER),
     UserControllers.getMyProfile,
 );
 
 // Update My Profile
 router.patch(
     '/me',
-    auth(Role.ADMIN, Role.MEMBER),
+    auth(USER_ROLE.ADMIN, USER_ROLE.MODERATOR, USER_ROLE.MEMBER),
     validateRequest(UserValidation.updateUserValidationSchema),
     UserControllers.updateMyProfile,
 );
@@ -32,14 +32,14 @@ router.patch(
 // Admin/Owner: View single user
 router.get(
     '/:id',
-    auth(Role.ADMIN, Role.MEMBER),
+    auth(USER_ROLE.ADMIN, USER_ROLE.MODERATOR, USER_ROLE.MEMBER),
     UserControllers.getSingleUser,
 );
 
 // Admin: Update user (role, status)
 router.patch(
     '/:id',
-    auth(Role.ADMIN),
+    auth(USER_ROLE.ADMIN, USER_ROLE.MODERATOR),
     validateRequest(UserValidation.updateUserValidationSchema),
     UserControllers.updateUser,
 );
