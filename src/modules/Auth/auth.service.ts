@@ -111,9 +111,58 @@ const refreshToken = async (token: string) => {
     accessToken,
   };
 };
+const googleLogin = async (payload: {
+  email: string;
+  name: string;
+  profileImage?: string;
+}) => {
+  let user = await prisma.user.findUnique({
+    where: { email: payload.email },
+  });
+
+  if (!user) {
+    user = await prisma.user.create({
+      data: {
+        email: payload.email,
+        name: payload.name,
+        profileImage: payload.profileImage || '',
+        password: '',
+        role: USER_ROLE.MEMBER,
+        isActive: true,
+      },
+    });
+  }
+
+  if (!user.isActive) {
+    throw new AppError(httpStatus.FORBIDDEN, 'User is inactive');
+  }
+
+  const jwtPayload = {
+    id: user.id,
+    email: user.email,
+    role: user.role,
+    name: user.name,
+  };
+
+  const accessToken = createToken(
+    jwtPayload,
+    config.jwt_access_secret as string,
+    config.jwt_access_expires_in as string,
+  );
+
+  const refreshToken = createToken(
+    jwtPayload,
+    config.jwt_refresh_secret as string,
+    config.jwt_refresh_expires_in as string,
+  );
+
+  return { accessToken, refreshToken };
+};
+
 
 export const AuthServices = {
   registerUser,
   loginUser,
   refreshToken,
+  googleLogin
 };

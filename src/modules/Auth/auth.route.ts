@@ -28,6 +28,8 @@ router.post(
   '/logout',
   AuthControllers.logoutUser,
 );
+router.get('/google', AuthControllers.googleAuth);
+router.get('/google/callback', AuthControllers.googleCallback);
 
 const authRouter = router;
 export default authRouter;
